@@ -10,7 +10,7 @@ import Foundation
 
 final class ContentViewModel: NSObject, ObservableObject {
     typealias authenticationLoginCallBack = (_ statusBool: Bool,_ message: String) -> Void
-
+    
     var loginCallBack: authenticationLoginCallBack?
     var user: User!
     var userDataManager: UserDataManagerProtocol?
@@ -39,9 +39,12 @@ final class ContentViewModel: NSObject, ObservableObject {
             return
         }
         
-        let userInData = data.filter({ $0.userName == username })
-
-        if userInData.count > 0 {
+        //        let userInData = data.filter({ $0.userName == username })
+        
+        guard let encryptedPassword = AES256CBC.encryptString(username, password: password) else {
+            return
+        }
+        if let decryptPassword = AES256CBC.decryptString(encryptedPassword, password: password) {
             user = User(userName: username, password: password)
             self.loginCallBack?(true, "Success")
         } else {
