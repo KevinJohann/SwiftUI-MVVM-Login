@@ -1,0 +1,20 @@
+PODS:
+  - AES256CBC (1.4.0)
+  - Alamofire (5.0.4)
+
+DEPENDENCIES:
+  - AES256CBC
+  - Alamofire (~> 5.0)
+
+SPEC REPOS:
+  trunk:
+    - AES256CBC
+    - Alamofire
+
+SPEC CHECKSUMS:
+  AES256CBC: 794e3a4d7530a7f37c908899cc4fedac63733b32
+  Alamofire: 0fe5fd24b4298dc377a6550da7d5f1b30e286fcb
+
+PODFILE CHECKSUM: cea7ad3e2e18eac19bbf9cdd231f4b0403204224
+
+COCOAPODS: 1.8.3

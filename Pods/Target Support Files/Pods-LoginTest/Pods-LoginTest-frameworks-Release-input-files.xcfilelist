@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-LoginTest/Pods-LoginTest-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AES256CBC/AES256CBC.framework
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
