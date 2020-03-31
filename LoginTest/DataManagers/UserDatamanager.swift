@@ -14,7 +14,7 @@ protocol UserDataManagerProtocol: AnyObject {
 
 class UserDataManager: UserDataManagerProtocol {
     static let shared: UserDataManagerProtocol = UserDataManager()
-
+    
     func getUser() -> [User] {
         guard let data = UserDefaults.standard.value(forKey:"users") as? Data else { return [] }
         let user = try! PropertyListDecoder().decode(Array<User>.self, from: data)

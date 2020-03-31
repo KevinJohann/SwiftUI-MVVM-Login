@@ -9,9 +9,19 @@
 import SwiftUI
 
 struct MainScreen: View {
+    let username: String?
+    
     var body: some View {
-        VStack{
-            Text("Welcome")
-        }
+        NavigationView {
+            VStack{
+                Text("Welcome, \(username ?? "")")
+            }
+        }.navigationBarHidden(true)
+    }
+}
+
+struct MainScreen_Previews: PreviewProvider {
+    static var previews: some View {
+        MainScreen(username: "")
     }
 }

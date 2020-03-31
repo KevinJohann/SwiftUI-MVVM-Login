@@ -35,20 +35,21 @@ final class ContentViewModel: NSObject, ObservableObject {
     }
     
     fileprivate func verifyUserWith(_ username: String, andPassword password: String) {
-        guard let data = userDataManager?.getUser() else {
+        guard let userData = userDataManager?.getUser() else {
             return
         }
         
-        //        let userInData = data.filter({ $0.userName == username })
-        
-        guard let encryptedPassword = AES256CBC.encryptString(username, password: password) else {
-            return
-        }
-        if let decryptPassword = AES256CBC.decryptString(encryptedPassword, password: password) {
-            user = User(userName: username, password: password)
-            self.loginCallBack?(true, "Success")
-        } else {
-            self.loginCallBack?(false, "Failure, enter valid credentials.")
+        for data in userData {
+            if data.userName == username {
+                let cryptedPassword = data.password
+                let decrpyted = AES256CBC.decryptString(cryptedPassword, password: password)
+                if decrpyted == username {
+                    user = User(userName: username, password: cryptedPassword)
+                    self.loginCallBack?(true, "Success")
+                } else {
+                    self.loginCallBack?(false, "Failure, enter valid credentials.")
+                }
+            }
         }
     }
     

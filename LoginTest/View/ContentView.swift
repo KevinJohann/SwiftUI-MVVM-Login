@@ -15,6 +15,8 @@ struct ContentView: View {
     @State var editingMode: Bool = false
     @State var password: String = ""
     @State var username: String = ""
+    @State private var canGoMainScreen: Bool = false
+    @State var selection: Int? = nil
     
     var body: some View {
         NavigationView {
@@ -39,22 +41,26 @@ struct ContentView: View {
                     }.padding(12)
                         .background(Color("Color"))
                     
-                    Button(action: {
-                        self.contentVM.autenticateUserWith(self.username, andPassword: self.password)
-                        self.contentVM.loginCompletionHandler { (status, message) in
-                            if status {
-                                print("Logged in with username \(self.contentVM.username)")
-                                NavigationLink(destination: MainScreen()) {
-                                    Text("Do Something")
-                                }
-
-                            } else {
-                                print(message)
-                            }
+                    NavigationLink(destination: MainScreen(username: self.username), tag: 1, selection: $selection) {
+                        Text("")
+//                    NavigationLink(destination: MainScreen(username: "Need to pass user name string"), isActive: self.$canGoMainScreen) { //self.contentVM.username
                         }
-                    }) {
-                        LoginButtonContent()
-                    }
+                    
+                        Button(action: {
+                            self.contentVM.autenticateUserWith(self.username, andPassword: self.password)
+                            self.contentVM.loginCompletionHandler { (status, message) in
+                                if status {
+                                    print("Logged in with username \(self.contentVM.username)")
+                                    self.canGoMainScreen = true
+                                    self.selection = 1
+                                } else {
+                                    print(message)
+                                }
+                            }
+                        }) {
+                            LoginButtonContent()
+                        }
+                    
                 }
             }
         }
@@ -67,7 +73,6 @@ struct WelcomeText : View {
         return Text("Welcome")
             .font(.largeTitle)
             .fontWeight(.semibold)
-            .padding(.bottom, 20)
     }
 }
 

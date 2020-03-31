@@ -57,24 +57,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     func initUsers() {
         let userName1 = "Kevin"
-        let password = "11111111111111111111111111111111"
-        
-        guard let encryptedPassword = AES256CBC.encryptString(userName1, password: password) else {
-            return
-        }
-        
+        let userName2 = "Johan"
+        let userName3 = "Root"
+        let password = "11111111111111111111111111111111" // 32 bits
+        let password2 = "22222222222222222222222222222222" // 32 bits
+        let password3 = "33333333333333333333333333333333" // 32 bits
+
+        guard let encryptedPassword = AES256CBC.encryptString(userName1, password: password) else { return }
+        guard let encryptedPassword2 = AES256CBC.encryptString(userName2, password: password2) else { return }
+        guard let encryptedPassword3 = AES256CBC.encryptString(userName3, password: password3) else { return }
+
         let users: [User] = [
             User(userName: userName1, password: encryptedPassword),
-            User(userName: "Johan", password: "123"),
-            User(userName: "Root", password: "123"),
+            User(userName: userName2, password: encryptedPassword2),
+            User(userName: userName3, password: encryptedPassword3),
         ]
-        
-        let decrypt = AES256CBC.decryptString(encryptedPassword, password: password)
-        
-        print("Encrypted DATA: ", encryptedPassword)
-        print("Decrypted DATA: ", decrypt)
-
-        
+                        
         UserDefaults.standard.set(try? PropertyListEncoder().encode(users), forKey: "users")
         
         guard let data = UserDefaults.standard.value(forKey:"users") as? Data else { return }
